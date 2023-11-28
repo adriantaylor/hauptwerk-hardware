@@ -17,8 +17,8 @@ MIDI_CREATE_DEFAULT_INSTANCE();
 
 
 // BUTTONS
-const int NButtons = 67; //***  total number of push buttons
-const int buttonPin[NButtons] = {2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68}
+const int NButtons = 61; //***  total number of push buttons
+const int buttonPin[NButtons] = {2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62}
 ; //*** define digital pins connected from button to Arduino; (ie {10, 16, 14, 15, 6, 7, 8, 9, 2, 3, 4, 5}; 12 buttons)
                                         //** Button NOTE will go up chromatically.  ie. if button is digi pin 2, C; Pin 3, C#; Pin 3, D; etc
                                    
@@ -32,7 +32,7 @@ unsigned long debounceDelay = 50;    //* the debounce time; increase if the outp
 
 // POTENTIOMETERS
 const int NPots = 1; //*** total numbers of pots (slide & rotary)
-const int potPin[NPots] = {A14}; //*** Analog pins of each pot connected straight to the Arduino i.e 4 pots, {A3, A2, A1, A0};
+const int potPin[NPots] = {}; //*** Analog pins of each pot connected straight to the Arduino i.e 4 pots, {A3, A2, A1, A0};
                                           // have nothing in the array if 0 pots {}
 
 int potCState[NPots] = {}; // Current state of the pot; delete 0 if 0 pots
@@ -50,7 +50,7 @@ unsigned long timer[NPots] = {}; // Stores the time that has elapsed since the t
 
 
 // MIDI
-byte midiCh = 1; //** MIDI channel to be used; You can add more if you need to reorganize or have a billion buttons/pots
+byte midiCh = 3; //** MIDI channel to be used; You can add more if you need to reorganize or have a billion buttons/pots
 byte note = 36; //** First note to be used for digital buttons, then go up chromatically in scale according to the sequence in your "buttonPin" array
                 // you can look up on a Midi Note chart; 36=C2; 60=Middle C
 byte cc = 1; //** First MIDI CC to be used for pots on Analog Pins in order of the "potPin" array; then goes up by 1
@@ -58,7 +58,7 @@ byte cc = 1; //** First MIDI CC to be used for pots on Analog Pins in order of t
 // SETUP
 void setup() { 
 
-  Serial.begin(31250); //**  Baud Rate 31250 for MIDI class compliant jack | 115200 for Hairless MIDI
+  Serial.begin(115200); //**  Baud Rate 31250 for MIDI class compliant jack | 115200 for Hairless MIDI
   // Buttons
   // Initialize buttons with pull up resistors
   for (int i = 0; i < NButtons; i++) {
@@ -89,20 +89,29 @@ void buttons() {
       if (buttonPState[i] != buttonCState[i]) {
         lastDebounceTime[i] = millis();
 
-        if (buttonCState[i] == LOW) {
+        if (i < 46) {
+          // These inputs are for the pedal which are grounded when off.
+          if (buttonCState[i] == HIGH) {
+            // Sends the MIDI note ON accordingly to the chosen board
+            MIDI.sendNoteOn(note + i, 127, midiCh); // note, velocity, channel
+          }
+          else {
+            // Sends the MIDI note OFF accordingly to the chosen board
+                MIDI.sendNoteOn(note + i, 0, midiCh); // note, velocity, channel
 
-          // Sends the MIDI note ON accordingly to the chosen board
-
-MIDI.sendNoteOn(note + i, 127, midiCh); // note, velocity, channel
-
-
+          }
         }
-        else {
-
+        else
+        {
+          // The rest are "normal" notes
+          if (buttonCState[i] == LOW) {
+            // Sends the MIDI note ON accordingly to the chosen board
+            MIDI.sendNoteOn(note + i, 127, midiCh); // note, velocity, channel
+          }
+          else {
           // Sends the MIDI note OFF accordingly to the chosen board
-
-MIDI.sendNoteOn(note + i, 0, midiCh); // note, velocity, channel
-
+              MIDI.sendNoteOn(note + i, 0, midiCh); // note, velocity, channel
+          }
         }
         buttonPState[i] = buttonCState[i];
       }

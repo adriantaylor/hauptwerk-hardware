@@ -5,7 +5,7 @@ USBMIDI_Interface midiusb;
 // Select the serial port to use.
 auto &serial = Serial1;
 // Instantiate a Serial MIDI interface at the default MIDI baud rate.
-SerialMIDI_Interface<decltype(serial)> midiserial {serial, 115200};
+SerialMIDI_Interface<decltype(serial)> midiserial {serial, 31250};
 // Instantiate a MIDI pipe to connect the two interfaces
 BidirectionalMIDI_Pipe mpipe;
 
