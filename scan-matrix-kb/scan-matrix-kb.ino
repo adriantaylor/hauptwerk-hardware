@@ -15,8 +15,8 @@ const AddressMatrix<8, 8> addresses {{
 }};
  
 NoteButtonMatrix<8, 8> buttonmatrix {
-  {2, 3, 4, 5, 6, 7, 8, 9}, // row pins
-  {10,11,12,13,14,15,16,17},    // column pins
+  {9, 3, 12, 13, 2, 4, 11, 10}, // row pins
+  {114, 8, 15, 7, 16, 6, 17, 5},    // column pins
   addresses,    // address matrix
   Channel_1,    // channel and cable number
 };
