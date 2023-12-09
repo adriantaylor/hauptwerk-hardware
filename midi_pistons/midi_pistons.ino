@@ -1,122 +1,55 @@
 #include <Control_Surface.h> // Include the Control Surface library
  
 // Instantiate a MIDI over USB interface.
-USBMIDI_Interface midi;
-
-CCButton buttonA0 {
-  // Push button on pin 5:
-  A0,
-  // General Purpose Controller #1 on MIDI channel 1:
-  {MIDI_CC::General_Purpose_Controller_1, CHANNEL_1},
-};
-
-CCButton buttonA1 {
-  // Push button on pin 5:
-  A1,
-  // General Purpose Controller #1 on MIDI channel 1:
-  {MIDI_CC::General_Purpose_Controller_1, CHANNEL_2},
-};
-
-CCButton buttonA2 {
-  // Push button on pin 5:
-  A2,
-  // General Purpose Controller #1 on MIDI channel 1:
-  {MIDI_CC::General_Purpose_Controller_1, CHANNEL_3},
-};
-
-CCButton buttonA3 {
-  // Push button on pin 5:
-  A3,
-  // General Purpose Controller #1 on MIDI channel 1:
-  {MIDI_CC::General_Purpose_Controller_1, CHANNEL_4},
-};
-
-CCButton buttonA4 {
-  // Push button on pin 5:
-  A3,
-  // General Purpose Controller #1 on MIDI channel 1:
-  {MIDI_CC::General_Purpose_Controller_1, CHANNEL_4},
-};
-
-CCButton button2 {
-  // Push button on pin 5:
-  2,
-  // General Purpose Controller #1 on MIDI channel 1:
-  {MIDI_CC::General_Purpose_Controller_2, CHANNEL_1},
-};
-
-CCButton button3 {
-  // Push button on pin 5:
-  3,
-  // General Purpose Controller #1 on MIDI channel 1:
-  {MIDI_CC::General_Purpose_Controller_2, CHANNEL_2},
-};
-
-CCButton button4 {
-  // Push button on pin 5:
-  4,
-  // General Purpose Controller #1 on MIDI channel 1:
-  {MIDI_CC::General_Purpose_Controller_2, CHANNEL_3},
-};
-
-CCButton button5 {
-  // Push button on pin 5:
-  5,
-  // General Purpose Controller #1 on MIDI channel 1:
-  {MIDI_CC::General_Purpose_Controller_2, CHANNEL_4},
-};
-
-CCButton button6 {
-  // Push button on pin 5:
-  6,
-  // General Purpose Controller #1 on MIDI channel 1:
-  {MIDI_CC::General_Purpose_Controller_2, CHANNEL_5},
-};
-
-CCButton button7 {
-  // Push button on pin 5:
-  7,
-  // General Purpose Controller #1 on MIDI channel 1:
-  {MIDI_CC::General_Purpose_Controller_2, CHANNEL_6},
-};
-
-CCButton button8 {
-  // Push button on pin 5:
-  8,
-  // General Purpose Controller #1 on MIDI channel 1:
-  {MIDI_CC::General_Purpose_Controller_2, CHANNEL_7},
-};
-
-CCButton button9 {
-  // Push button on pin 5:
-  9,
-  // General Purpose Controller #1 on MIDI channel 1:
-  {MIDI_CC::General_Purpose_Controller_3, CHANNEL_1},
-};
-
-CCButton button10 {
-  // Push button on pin 5:
-  10,
-  // General Purpose Controller #1 on MIDI channel 1:
-  {MIDI_CC::General_Purpose_Controller_3, CHANNEL_2},
-};
-
-CCButton button16 {
-  // Push button on pin 5:
-  16,
-  // General Purpose Controller #1 on MIDI channel 1:
-  {MIDI_CC::General_Purpose_Controller_3, CHANNEL_3},
-};
-
-CCButton button14 {
-  // Push button on pin 5:
-14,
-  // General Purpose Controller #1 on MIDI channel 1:
-  {MIDI_CC::General_Purpose_Controller_3, CHANNEL_4},
-};
-
+HairlessMIDI_Interface midi;
+PCButton button2 { 2, {2, Channel_7}};
+PCButton button3 { 3, {3, Channel_7}};
+PCButton button4 { 4, {4, Channel_7}};
+PCButton button5 { 5, {5, Channel_7}};
+PCButton button6 { 6, {6, Channel_7}};
+PCButton button7 { 7, {7, Channel_7}};
+PCButton button8 { 8, {8, Channel_7}};
+PCButton button9 { 9, {9, Channel_7}};
+PCButton button10 { 10, {10, Channel_7}};
+PCButton button11 { 11, {11, Channel_7}};
+PCButton button12 { 12, {12, Channel_7}};
+PCButton button13 { 13, {13, Channel_7}};
+PCButton button14 { 14, {14, Channel_7}};
+PCButton button15 { 15, {15, Channel_7}};
+PCButton button16 { 16, {16, Channel_7}};
+PCButton button17 { 17, {17, Channel_7}};
+PCButton button18 { 18, {18, Channel_7}};
+PCButton button19 { 19, {19, Channel_7}};
+PCButton button20 { 20, {20, Channel_7}};
+PCButton button21 { 21, {21, Channel_7}};
+PCButton button22 { 22, {22, Channel_7}};
+PCButton button23 { 23, {23, Channel_7}};
+PCButton button24 { 24, {24, Channel_7}};
+PCButton button25 { 25, {25, Channel_7}};
+PCButton button26 { 26, {26, Channel_7}};
+PCButton button27 { 27, {27, Channel_7}};
+PCButton button28 { 28, {28, Channel_7}};
+PCButton button29 { 29, {29, Channel_7}};
+PCButton button30 { 30, {30, Channel_7}};
+PCButton button31 { 31, {31, Channel_7}};
+PCButton button32 { 32, {32, Channel_7}};
+PCButton button33 { 33, {33, Channel_7}};
+PCButton button34 { 34, {34, Channel_7}};
+PCButton button35 { 35, {35, Channel_7}};
+PCButton button36 { 36, {36, Channel_7}};
+PCButton button37 { 37, {37, Channel_7}};
+PCButton button38 { 38, {38, Channel_7}};
+PCButton button39 { 39, {39, Channel_7}};
+PCButton button40 { 40, {40, Channel_7}};
+PCButton button41 { 41, {41, Channel_7}};
+PCButton button42 { 42, {42, Channel_7}};
+PCButton button43 { 43, {43, Channel_7}};
+PCButton button44 { 44, {44, Channel_7}};
+PCButton button45 { 45, {45, Channel_7}};
+PCButton button46 { 46, {46, Channel_7}};
  
 void setup() {
+  int midi_channel = 7;
   Control_Surface.begin();
 }
  

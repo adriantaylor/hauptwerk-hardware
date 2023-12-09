@@ -3,6 +3,13 @@
 
    Rows {{ 9, 3, 12, 13, 2, 4, 11, 10 }};
    Cols {{ 14, 8, 15, 7, 16, 6, 17, 5 }};
+   13, 3, 12, 4, 11, 5. 10, 6
+
+   2, 8, A1, A0, 9, 7, A2, A3
+
+  Rows (nano) {{ 2, 8, a1,	a0, 9, 7, a2,	a3 }}
+   Cols (Nano) {{ 15, 3, 14, 4, 16, 5, 10, 6}}
+  
 
    Based on code taken from here - 
    https://forum.arduino.cc/t/keyboard-piano-scanner-with-sensitivity-and-sustain-arduino-mega-2560/648586
@@ -11,11 +18,11 @@
 #include <MIDI.h>
 #include <Keypad.h>
 
-#define HAIRLESS 1
+#define HAIRLESS 1 // Set this to 0 for normal MIDI
 
 #define LIST_MAX 64  // You'll probably need to change this in libraries/Keypad/src/Keypad.h
 
-byte channel = 0;  // Change this per manual
+byte channel = 1;  // Change this per manual
 const byte ROWS = 8;
 const byte COLS = 8;
 
@@ -30,8 +37,8 @@ char keys[ROWS][COLS] = {
   { 92, 93, 94, 95, 96, 97, 98, 99 },
 };
 
-byte rowPins[ROWS] = { 9, 3, 12, 13, 2, 4, 11, 10 };
-byte colPins[COLS] = { A0, 8, A1, 7, A2, 6, A3, 5 };
+byte rowPins[ROWS] = { 2, 8, A1, A0, 9, 7, A2, A3 };
+byte colPins[COLS] = { 13, 3, 12, 4, 11, 5, 10, 6 };
 
 Keypad kpd = Keypad(makeKeymap(keys), rowPins, colPins, ROWS, COLS);
 
