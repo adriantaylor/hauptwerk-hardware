@@ -1,7 +1,27 @@
 #include <Control_Surface.h> // Include the Control Surface library
- 
-// Instantiate a MIDI over USB interface.
-HairlessMIDI_Interface midi;
+
+// Original
+// HairlessMIDI_Interface midi;
+
+auto &serial0 = Serial;
+// Instantiate a Serial MIDI interface at the default MIDI baud rate.
+SerialMIDI_Interface<decltype(serial0)> midiserial0 {serial0, 31250};
+
+auto &serial1 = Serial1;
+// Instantiate a Serial MIDI interface at the default MIDI baud rate.
+SerialMIDI_Interface<decltype(serial1)> midiserial1 {serial1, 31250};
+
+auto &serial2 = Serial2;
+// Instantiate a Serial MIDI interface at the default MIDI baud rate.
+SerialMIDI_Interface<decltype(serial2)> midiserial2 {serial2, 31250};
+
+auto &serial3 = Serial3;
+// Instantiate a Serial MIDI interface at the default MIDI baud rate.
+SerialMIDI_Interface<decltype(serial3)> midiserial3 {serial3, 31250};
+
+// Instantiate a MIDI pipe to connect the two interfaces
+BidirectionalMIDI_Pipe mpipe;
+
 PCButton button2 { 2, {2, Channel_7}};
 PCButton button3 { 3, {3, Channel_7}};
 PCButton button4 { 4, {4, Channel_7}};
@@ -49,10 +69,16 @@ PCButton button45 { 45, {45, Channel_7}};
 PCButton button46 { 46, {46, Channel_7}};
  
 void setup() {
-  int midi_channel = 7;
+  midiserial1 | mpipe | midiserial0;
+  midiserial2 | mpipe | midiserial0;
+  midiserial3 | mpipe | midiserial0;
+  
+  // Initialize all MIDI interfaces
+  MIDI_Interface::beginAll();
   Control_Surface.begin();
 }
  
 void loop() {
   Control_Surface.loop();
+  MIDI_Interface::updateAll();
 }
