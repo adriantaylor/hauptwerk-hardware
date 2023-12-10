@@ -22,7 +22,7 @@
 
 #define LIST_MAX 64  // You'll probably need to change this in libraries/Keypad/src/Keypad.h
 
-byte channel = 1;  // Change this per manual
+byte channel = 0;  // Change this per manual
 const byte ROWS = 8;
 const byte COLS = 8;
 
@@ -37,8 +37,10 @@ char keys[ROWS][COLS] = {
   { 92, 93, 94, 95, 96, 97, 98, 99 },
 };
 
-byte rowPins[ROWS] = { 2, 8, A1, A0, 9, 7, A2, A3 };
-byte colPins[COLS] = { 13, 3, 12, 4, 11, 5, 10, 6 };
+byte rowPins[ROWS] = { 3, 8, A1, A0, 9, 7, A2, A3 };
+byte colPins[COLS] = { 13, 2, 12, 4, 11, 5, 10, 6 };
+
+
 
 Keypad kpd = Keypad(makeKeymap(keys), rowPins, colPins, ROWS, COLS);
 
