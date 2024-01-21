@@ -47,9 +47,9 @@
 //   Mega:     HW_SERIAL, HW_SERIAL2, HW_SERIAL3, HW_SERIAL4, SW_SERIAL, SW_SERIAL2, USB_HOST (with additional sheild).
 //
 #define MIDI_HW_SERIAL 1
-// #define MIDI_HW_SERIAL2 2
-// #define MIDI_HW_SERIAL3 3
-// #define MIDI_HW_SERIAL4 4
+#define MIDI_HW_SERIAL2 2
+#define MIDI_HW_SERIAL3 3
+#define MIDI_HW_SERIAL4 4
 //#define MIDI_SW_SERIAL 5
 //#define MIDI_SW_SERIAL2 6
 //#define MIDI_USB_HOST 7
