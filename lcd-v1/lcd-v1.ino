@@ -13,8 +13,9 @@
 
 #include <LiquidCrystal_I2C.h>
 #include <Control_Surface.h>
+
 LiquidCrystal_I2C lcd0(0x27, 16, 2); // I2C address 0x27, 16 column and 2 rows
-LiquidCrystal_I2C lcd1(0x21, 16, 2); // I2C address 0x27, 16 column and 2 rows
+LiquidCrystal_I2C lcd1(0x26, 16, 2); // I2C address 0x27, 16 column and 2 rows
 
 LiquidCrystal_I2C lcd[2] = {lcd0,lcd1};
 
@@ -85,6 +86,7 @@ void setup() {
   {
     lcd[i].init(); // initialize the lcd
     lcd[i].backlight();
+//    Would be great if this was software configurable - needs a resistor between pins 15-16 to reduce backlight
 //    lcd[i].setBacklight(1);
     lcd[i].clear();                 // clear display
     lcd[i].setCursor(0, 0);         // move cursor to   (0, 0)
@@ -92,6 +94,7 @@ void setup() {
     lcd[i].print(i);
   }
 
+// Add in power detection
   Control_Surface.begin();
   Control_Surface.setMIDIInputCallbacks(nullptr, sysExMessageCallback, nullptr, nullptr);
 }
