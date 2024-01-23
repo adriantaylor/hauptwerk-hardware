@@ -15,10 +15,8 @@
    https://forum.arduino.cc/t/keyboard-piano-scanner-with-sensitivity-and-sustain-arduino-mega-2560/648586
 */
 
-#include <Keypad.h>
 #include <MIDI.h>
-
-MIDI_CREATE_INSTANCE(HardwareSerial, Serial1, MIDI_HS);
+#include <Keypad.h>
 
 #define LIST_MAX 64  // You'll probably need to change this in libraries/Keypad/src/Keypad.h
 
@@ -30,7 +28,7 @@ Pedals = 3
 Pistons = 7
 
 */
-byte channel = 0;  // Change this per manual
+byte channel = 2;  // Change this per manual
 const byte ROWS = 8;
 const byte COLS = 8;
 
@@ -46,7 +44,7 @@ char keys[ROWS][COLS] = {
 };
 
 byte rowPins[ROWS] = { 2, 8, A1, A0, 9, 7, A2, A3 };
-byte colPins[COLS] = { 13, 3, 12, 4, 11, 5, 10, 6 };
+byte colPins[COLS] = { 15, 3, 14, 4, 16, 5, 10, 6};
 
 
 Keypad kpd = Keypad(makeKeymap(keys), rowPins, colPins, ROWS, COLS);
@@ -56,23 +54,9 @@ byte pressed = 32;
 
 void setup() {
     Serial1.begin(31250); // Serial MIDI
-    MIDI_HS.begin(MIDI_CHANNEL_OMNI);
-    MIDI_HS.turnThruOff();
-    
 }
 
 void loop() {
-
-  if (MIDI_HS.read()) {
-    midi::MidiType mt  = MIDI_HS.getType();
-    if (mt != midi::SystemExclusive) {
-      MIDI_HS.send(mt, MIDI_HS.getData1(), MIDI_HS.getData2(), MIDI_HS.getChannel());
-    } else {
-      int mSxLen = MIDI_HS.getData1() + 256*MIDI_HS.getData2();
-      MIDI_HS.sendSysEx(mSxLen, MIDI_HS.getSysExArray(), true);
-    }
-  }
-
   if (kpd.getKeys()) {
     for (int i = 0; i < LIST_MAX; i++) {
       if (kpd.key[i].stateChanged) {

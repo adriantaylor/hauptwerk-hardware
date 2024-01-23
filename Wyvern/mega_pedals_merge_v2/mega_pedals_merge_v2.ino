@@ -47,9 +47,9 @@
 //   Mega:     HW_SERIAL, HW_SERIAL2, HW_SERIAL3, HW_SERIAL4, SW_SERIAL, SW_SERIAL2, USB_HOST (with additional sheild).
 //
 #define MIDI_HW_SERIAL 1
-#define MIDI_HW_SERIAL2 2
-#define MIDI_HW_SERIAL3 3
-#define MIDI_HW_SERIAL4 4
+// #define MIDI_HW_SERIAL2 2
+// #define MIDI_HW_SERIAL3 3
+// #define MIDI_HW_SERIAL4 4
 //#define MIDI_SW_SERIAL 5
 //#define MIDI_SW_SERIAL2 6
 //#define MIDI_USB_HOST 7
@@ -193,11 +193,9 @@ MIDI_CREATE_DEFAULT_INSTANCE();
 
 
 // BUTTONS
-const int NButtons = 60; //***  total number of push buttons
-const int buttonPin[NButtons] = {2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15 };
-
-// const int NButtons = 2; //***  total number of push buttons
-// const int buttonPin[NButtons] = {12, 13};
+const int NButtons = 32; //***  total number of push buttons
+const int buttonPin[NButtons] = {33, 32, 31, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
+// const int buttonPin[NButtons] = {2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32};
 
 //*** define digital pins connected from button to Arduino; (ie {10, 16, 14, 15, 6, 7, 8, 9, 2, 3, 4, 5}; 12 buttons)
                                         //** Button NOTE will go up chromatically.  ie. if button is digi pin 2, C; Pin 3, C#; Pin 3, D; etc
@@ -211,27 +209,27 @@ unsigned long lastDebounceTime[NButtons] = {0};  // the last time the output pin
 unsigned long debounceDelay = 50;    //* the debounce time; increase if the output flickers
 
 // POTENTIOMETERS
-const int NPots = 2; //*** total numbers of pots (slide & rotary)
-const int potPin[NPots] = { A0, A1}; //*** Analog pins of each pot connected straight to the Arduino i.e 4 pots, {A3, A2, A1, A0};
+const int NPots = 0; //*** total numbers of pots (slide & rotary)
+const int potPin[NPots] = {}; //*** Analog pins of each pot connected straight to the Arduino i.e 4 pots, {A3, A2, A1, A0};
                                           // have nothing in the array if 0 pots {}
 
-int potCState[NPots] = {0}; // Current state of the pot; delete 0 if 0 pots
-int potPState[NPots] = {0}; // Previous state of the pot; delete 0 if 0 pots
+int potCState[NPots] = {}; // Current state of the pot; delete 0 if 0 pots
+int potPState[NPots] = {}; // Previous state of the pot; delete 0 if 0 pots
 int potVar = 0; // Difference between the current and previous state of the pot
 
-int midiCState[NPots] = {0}; // Current state of the midi value; delete 0 if 0 pots
-int midiPState[NPots] = {0}; // Previous state of the midi value; delete 0 if 0 pots
+int midiCState[NPots] = {}; // Current state of the midi value; delete 0 if 0 pots
+int midiPState[NPots] = {}; // Previous state of the midi value; delete 0 if 0 pots
 
 const int TIMEOUT = 300; //** Amount of time the potentiometer will be read after it exceeds the varThreshold
 const int varThreshold = 10; //** Threshold for the potentiometer signal variation
 boolean potMoving = true; // If the potentiometer is moving
-unsigned long PTime[NPots] = {0}; // Previously stored time; delete 0 if 0 pots
-unsigned long timer[NPots] = {0}; // Stores the time that has elapsed since the timer was reset; delete 0 if 0 pots
+unsigned long PTime[NPots] = {}; // Previously stored time; delete 0 if 0 pots
+unsigned long timer[NPots] = {}; // Stores the time that has elapsed since the timer was reset; delete 0 if 0 pots
 
 
 // MIDI
-byte midiCh = 7; //** MIDI channel to be used; You can add more if you need to reorganize or have a billion buttons/pots
-byte note = 1; //** First note to be used for digital buttons, then go up chromatically in scale according to the sequence in your "buttonPin" array
+byte midiCh = 4; //** MIDI channel to be used; You can add more if you need to reorganize or have a billion buttons/pots
+byte note = 24; //** First note to be used for digital buttons, then go up chromatically in scale according to the sequence in your "buttonPin" array
                 // you can look up on a Midi Note chart; 36=C2; 60=Middle C
 byte cc = 1; //** First MIDI CC to be used for pots on Analog Pins in order of the "potPin" array; then goes up by 1
 
@@ -240,9 +238,9 @@ void setup()
 {
 
   Serial.begin(31250); //**  Baud Rate 31250 for MIDI class compliant jack | 115200 for Hairless MIDI
-  Serial1.begin(31250);
-  Serial2.begin(31250);
-  Serial3.begin(31250);
+  // Serial1.begin(31250);
+  // Serial2.begin(31250);
+  // Serial3.begin(31250);
   // Buttons
   // Initialize buttons with pull up resistors
   for (int i = 0; i < NButtons; i++) {
@@ -411,32 +409,43 @@ void loop()
 }
 
 // BUTTONS
+// BUTTONS
 void buttons() {
+
   for (int i = 0; i < NButtons; i++) {
+
     buttonCState[i] = digitalRead(buttonPin[i]);  // read pins from arduino
+
+
     if ((millis() - lastDebounceTime[i]) > debounceDelay) {
 
       if (buttonPState[i] != buttonCState[i]) {
         lastDebounceTime[i] = millis();
-          // Serial.println(i);
 
-          if( i == 14 ){
-            if (buttonCState[i] == LOW) {
-              MIDI.sendNoteOn(note + i, 127, midiCh); // note, velocity, channel
-            }
-            else
-            {
-              MIDI.sendNoteOff(note + i, 0, midiCh); // note, velocity, channel
-            }
-          }
-          else
-          {
-            if (buttonCState[i] == LOW) {
-              MIDI.sendProgramChange(note + i, midiCh); // note, velocity, channel
-  
-            }
-          }
+        // if (i < 46) {
+        //   // These inputs are for the pedal which are grounded when off.
+        //   if (buttonCState[i] == HIGH) {
+        //     // Sends the MIDI note ON accordingly to the chosen board
+        //     MIDI.sendProgramChange(note + i, 127, midiCh); // note, velocity, channel
+        //   }
+        //   else {
+        //     // Sends the MIDI note OFF accordingly to the chosen board
+        //         MIDI.sendNoteOn(note + i, 0, midiCh); // note, velocity, channel
 
+        //   }
+        // }
+        // else
+        // {
+          // The rest are "normal" notes
+          if (buttonCState[i] == LOW) {
+            // Sends the MIDI note ON accordingly to the chosen board
+            MIDI.sendNoteOn(note + i, 127, midiCh); // note, velocity, channel
+          }
+          else {
+          // Sends the MIDI note OFF accordingly to the chosen board
+              MIDI.sendNoteOn(note + i, 0, midiCh); // note, velocity, channel
+          }
+        // }
         buttonPState[i] = buttonCState[i];
       }
     }
