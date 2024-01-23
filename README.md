@@ -6,7 +6,7 @@ Currently this is:
 
 | Folder | Purpose |
 |------- | ------ |
-| midi-mega-keyboard | Arduino Mega 2560: 61 note keyboard, 1 key per contact, MIDI over Serial |
-| midi-pipe-serial | Connect serial MIDI to a USB capable board, e.g. Pro Micro, to allow Arduino to Arduino serial comms then the Pro Micro is a USB MIDI interface |
-| wyvern-manuals-matrix | Matrix Scanner for a Wyvern C356 console |
+| Wyvern | Conversion of a Wyvern C356 console - 8x8 keyboard scan matrix|
+| Norwich | Conversion of a 60s Norwich console - 1 wire per key |
+| lcd-v1 | Generic 16x2 LCD code - takes SysEx from Hauptwerk and displays output |
 
